@@ -115,7 +115,6 @@ const renderNoteList = async (notes) => {
     noteList.forEach((el) => (el.innerHTML = ''));
   }
 
-  let noteListItems = [];
 
   const createLi = (text, delBtn = true) => {
     const liEl = document.createElement('li');
@@ -124,79 +123,6 @@ const renderNoteList = async (notes) => {
     const spanEl = document.createElement('span');
     spanEl.innerText = text;
     spanEl.addEventListener('click', handleNoteView);
-
-
-    const inputVal = document.querySelector('.userInput');
-    const addTaskBtn = document.querySelector('.savebtn');
-    
-    function inputNoteVal(notesList) {
-        inputVal.value = notesList;
-    }
-
-    addTaskBtn.addEventListener('click', function() {    
-      if (inputVal.value != 0) {
-          let localItems = JSON.parse(localStorage.getItem('localItem'))
-  
-          if (localItems === null) {
-              taskList = []
-          } else {
-              taskList = localItems;
-          }
-          taskList.push(inputVal.value)
-          localStorage.setItem('localItem', JSON.stringify(taskList))
-      }
-      showList();
-      // resets input value 
-      inputVal.value = '';
-  })
-
-    var noteLists = [];
-
-    function showNotes () {
-    let outPut = '';
-    let taskListShow = document.querySelector('.noteListItems');  
-    let localItems = JSON.parse(localStorage.getItem('localItem'));
- 
-    if (localItems === null) {
-      console.log('error')
-  } else {
-      taskList = localItems
-      console.log('success')
-  }
-
-  taskList.forEach((data, index) => {
-      outPut += `
-      <div class="notesList">
-          <p class="pText">${data}</p>
-          <button class="deleteTask" onClick="deleteItem(${index})">x</button>
-      </div>
-      `
-      console.log(data)
-  });
-  taskListShow.innerHTML = outPut;
-  // inputVal.value = '';
-}
-showNotes();
-
-
-    // will add the movie suggestion to the watch list
-    addTaskBtn.addEventListener('click', function() {    
-        if (inputVal.value != 0) {
-            let localItems = JSON.parse(localStorage.getItem('localItem'))
-    
-            if (localItems === null) {
-                taskList = []
-            } else {
-                taskList = localItems;
-            }
-            taskList.push(inputVal.value)
-            localStorage.setItem('localItem', JSON.stringify(taskList))
-        }
-        // calls the show list function
-        showNotes();
-        // resets input value 
-        // inputVal.value = '';
-    })
 
     liEl.append(spanEl);
 
@@ -240,6 +166,14 @@ if (window.location.pathname === '/notes') {
   newNoteBtn.addEventListener('click', handleNewNoteView);
   noteTitle.addEventListener('keyup', handleRenderSaveBtn);
   noteText.addEventListener('keyup', handleRenderSaveBtn);
+}
+
+document.getElementById("saveNoteBtn").onclick = function() {
+var text = document.getElementById("idea").value;
+
+var li = "<li>" + text + "</li>";
+
+  document.getElementById("list").appendChild(li);
 }
 
 getAndRenderNotes();
